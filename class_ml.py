@@ -14,9 +14,9 @@ ticker = code[stocks]
 
 # Date selection
 st.write('Select date range for historical data')
-start = st.date_input('Start date', datetime.date(2022, 1, 1), max_value = datetime.date(2022,11,28))
-end = st.date_input('End date', start+datetime.timedelta(days=730), min_value = start+datetime.timedelta(days=730))
-st.write('Uses a larger time frame should produce better results')
+start = st.date_input('Start date', datetime.date(2020, 1, 1), max_value = datetime.date(2022,11,28))
+end = st.date_input('End date', datetime(2024,11,1), min_value = start+datetime.timedelta(days=730))
+st.write('Using a larger time frame should produce better results')
 def lag_function(x, p):
         x = x.copy()
         for i in range(1,p+1):
