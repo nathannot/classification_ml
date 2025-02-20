@@ -23,7 +23,7 @@ def lag_function(x, p):
             x[f'lag_{i}'] = x['Close'].shift(i)
         x = x.dropna()
         return x
-da = yf.download(ticker, start,end)[['Close']]
+da = yf.download(ticker, start,end,multi_level_index=False)[['Close']]
 if da.empty:
     st.warning("No data available for the selected date range. Please adjust the date range.")
     st.stop()
@@ -129,7 +129,7 @@ st.write('Classification Model Performance Summary')
 st.write(summ)
 st.write(f'Model accuracy is {acc}')
 st.write(f'The prediction of next day is {pred}')
-d = yf.download(ticker, end-datetime.timedelta(days=3),end+datetime.timedelta(days=4))[['Close']]
+d = yf.download(ticker, end-datetime.timedelta(days=3),end+datetime.timedelta(days=4),multi_level_index=False)[['Close']]
 st.write('The table below shows last price in model and next day prices so we can see if the model prediction is right')
 st.write(d)
 st.write('The last date the model uses is the last business day before end date.')
