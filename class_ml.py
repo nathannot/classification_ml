@@ -20,10 +20,10 @@ st.write('Using a larger time frame should produce better results')
 def lag_function(x, p):
         x = x.copy()
         for i in range(1,p+1):
-            x[f'lag_{i}'] = x['Adj Close'].shift(i)
+            x[f'lag_{i}'] = x['Close'].shift(i)
         x = x.dropna()
         return x
-da = yf.download(ticker, start,end)[['Adj Close']]
+da = yf.download(ticker, start,end)[['Close']]
 if da.empty:
     st.warning("No data available for the selected date range. Please adjust the date range.")
     st.stop()
@@ -31,8 +31,8 @@ df = lag_function(da, 20)
 def bbands(x, window):
     x = x.copy()
     
-    rolling_ma = x['Adj Close'].rolling(window).mean()
-    rolling_std = x['Adj Close'].rolling(window).std()
+    rolling_ma = x['Close'].rolling(window).mean()
+    rolling_std = x['Close'].rolling(window).std()
     x['bb_upper'] = rolling_ma + 2*rolling_std
     x['bb_lower'] = rolling_ma - 2*rolling_std
     #x[f'ma_{window}'] = rolling_ma
@@ -129,13 +129,13 @@ st.write('Classification Model Performance Summary')
 st.write(summ)
 st.write(f'Model accuracy is {acc}')
 st.write(f'The prediction of next day is {pred}')
-d = yf.download(ticker, end-datetime.timedelta(days=3),end+datetime.timedelta(days=4))[['Adj Close']]
+d = yf.download(ticker, end-datetime.timedelta(days=3),end+datetime.timedelta(days=4))[['Close']]
 st.write('The table below shows last price in model and next day prices so we can see if the model prediction is right')
 st.write(d)
 st.write('The last date the model uses is the last business day before end date.')
 st.write('Find the next business date to see actual price of future date for the model')
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=da.index[train:],y=da['Adj Close'].iloc[train:]))
+fig.add_trace(go.Scatter(x=da.index[train:],y=da['Close'].iloc[train:]))
 fig.update_layout(hovermode='x', title = f'Daily price chart of {ticker}')
 
 st.plotly_chart(fig)
